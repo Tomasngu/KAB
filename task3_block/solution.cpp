@@ -131,7 +131,6 @@ bool encrypt_data ( const std::string & in_filename, const std::string & out_fil
 	// cout << "I want " << EVP_CIPHER_iv_length(cipher) << " IV to decrypt" << endl;
 
 	int neededKeySize = EVP_CIPHER_key_length(cipher);
-	if(config.m_key_len && !config.m_key) return false;
 	if((int) config.m_key_len < neededKeySize){
 		string newKey = rand_string(neededKeySize);
 		config.m_key = std::make_unique<uint8_t[]>(neededKeySize);
@@ -140,7 +139,7 @@ bool encrypt_data ( const std::string & in_filename, const std::string & out_fil
 		// cout << "REDOING KEY" << endl;
 	}
 	int neededIVSize = EVP_CIPHER_iv_length(cipher);
-	if(config.m_IV_len && !config.m_IV) return false;
+	// if(config.m_IV_len && !config.m_IV) return false;
 	if((int) config.m_IV_len < neededIVSize){
 		string newIV = rand_string(neededIVSize);
 		config.m_IV = std::make_unique<uint8_t[]>(neededIVSize);
@@ -164,7 +163,6 @@ bool decrypt_data ( const std::string & in_filename, const std::string & out_fil
 	// cout << "I want " << EVP_CIPHER_iv_length(cipher) << " IV to decrypt" << endl;
 
 	int neededKeySize = EVP_CIPHER_key_length(cipher);
-	if(config.m_key_len && !config.m_key) return false;
 	if(!config.m_key || (int) config.m_key_len < neededKeySize) return false;
 
 	int neededIVSize = EVP_CIPHER_iv_length(cipher);
